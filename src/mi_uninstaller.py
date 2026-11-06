@@ -20,6 +20,7 @@ import subprocess
 import threading
 import datetime
 import shutil
+import tempfile
 import ctypes
 
 import tkinter as tk
@@ -572,8 +573,9 @@ class App:
 
 # ---------------------------------------------------------------- 自检模式
 def selftest():
-    log_path = os.path.join(os.path.expanduser("~"), "Desktop", "MiUninstaller_selftest.txt")
-    lines = []
+    """无人值守自检：结果写到临时目录，同时打印到 stdout（GUI 程序无控制台时靠文件）"""
+    log_path = os.path.join(tempfile.gettempdir(), "MiUninstaller_selftest.txt")
+    lines = ["log_path: %s" % log_path]
     lines.append("adb found: %s" % ADB)
     lines.append("resource_dir: %s" % resource_dir())
     lines.append("frozen: %s" % getattr(sys, "frozen", False))

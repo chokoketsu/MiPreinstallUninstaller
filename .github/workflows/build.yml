@@ -44,10 +44,14 @@ jobs:
       - name: 自检（确认内置 adb 可用）
         shell: pwsh
         run: |
-          .\dist\MiUninstaller.exe --selftest
-          Start-Sleep -Seconds 2
-          $log = "$env:USERPROFILE\Desktop\MiUninstaller_selftest.txt"
-          if (Test-Path $log) { Get-Content $log } else { Write-Error "自检未产出日志" }
+          $p = Start-Process -FilePath ".\dist\MiUninstaller.exe" -ArgumentList "--selftest" -PassThru -Wait
+          if ($p.ExitCode -ne 0) { Write-Error "自检退出码 $($p.ExitCode)"; exit 1 }
+          $log = Join-Path $env:TEMP "MiUninstaller_selftest.txt"
+          if (Test-Path $log) {
+            Get-Content $log -Encoding UTF8
+          } else {
+            Write-Warning "未找到自检日志（不阻断构建）"
+          }
 
       - uses: actions/upload-artifact@v4
         with:
