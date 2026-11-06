@@ -584,6 +584,8 @@ def selftest():
         lines.append("adb version rc=%s\n%s" % (rc, out.strip()))
         rc, out = run_adb(["devices", "-l"])
         lines.append("devices rc=%s\n%s" % (rc, out.strip()))
+        # 收掉 adb 守护进程，否则 CI 里 Start-Process 会一直等子进程退出
+        run_adb(["kill-server"], timeout=15)
     lines.append("presets: %d" % len(PRESETS))
     with open(log_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
