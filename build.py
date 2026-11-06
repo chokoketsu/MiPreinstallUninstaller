@@ -20,6 +20,13 @@ import shutil
 import subprocess
 from pathlib import Path
 
+# Windows CI 的控制台默认是 cp1252，直接打印中文会 UnicodeEncodeError
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "src" / "mi_uninstaller.py"
 ICON = ROOT / "assets" / "icon.ico"
