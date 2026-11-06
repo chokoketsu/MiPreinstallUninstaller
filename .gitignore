@@ -1,0 +1,21 @@
+# 构建产物
+build/
+dist/
+*.spec
+__pycache__/
+*.py[cod]
+
+# 内置 adb（体积大，由 build.py 自动从 SDK 复制，不入库）
+adb_bundle/
+adb/
+
+# 备份目录（可能含个人设备信息）
+MI卸载备份_*/
+*_备份_*/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store

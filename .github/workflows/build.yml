@@ -1,0 +1,57 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 下载 platform-tools（提供内置 adb）
+        shell: pwsh
+        run: |
+          $url = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
+          Invoke-WebRequest -Uri $url -OutFile platform-tools.zip
+          Expand-Archive platform-tools.zip -DestinationPath .
+          New-Item -ItemType Directory -Force -Path adb_bundle | Out-Null
+          Copy-Item platform-tools\adb.exe adb_bundle\
+          Copy-Item platform-tools\AdbWinApi.dll adb_bundle\
+          Copy-Item platform-tools\AdbWinUsbApi.dll adb_bundle\
+          Get-ChildItem adb_bundle | Select-Object Name, Length
+
+      - name: 安装依赖
+        run: python -m pip install --upgrade pip pyinstaller
+
+      - name: 打包 exe
+        run: python build.py
+
+      - name: 自检（确认内置 adb 可用）
+        shell: pwsh
+        run: |
+          .\dist\MiUninstaller.exe --selftest
+          Start-Sleep -Seconds 2
+          $log = "$env:USERPROFILE\Desktop\MiUninstaller_selftest.txt"
+          if (Test-Path $log) { Get-Content $log } else { Write-Error "自检未产出日志" }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MiUninstaller-windows
+          path: dist/MiUninstaller.exe
+
+      - name: 附加到 Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/MiUninstaller.exe
