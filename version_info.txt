@@ -24,7 +24,7 @@ VSVersionInfo(
             StringStruct(u'OriginalFilename', u'MiUninstaller.exe'),
             StringStruct(u'ProductName', u'MiPreinstallUninstaller'),
             StringStruct(u'ProductVersion', u'1.2.0.0'),
-            StringStruct(u'Comments', u'https://github.com/chokoketsu/MiPreinstallUninstaller')
+            StringStruct(u'Comments', u'https://github.com/chokoketsu/SystemHelper-Remover')
           ]
         )
       ]

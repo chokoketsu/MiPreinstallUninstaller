@@ -2,9 +2,9 @@
 
 <img src="assets/icon.ico" width="90" alt="icon">
 
-# 小米预装应用卸载助手
+# SystemHelper Remover
 
-**专治 `SystemHelper` 这类「看不见」的预装应用**
+**小米预装应用卸载助手** —— 一键摘掉 `SystemHelper`（`com.mobiletools.systemhelper`）这类看不见的预装应用
 
 无图标 · 不在应用列表 · 开机自启 · 定期唤醒 · 明文 HTTP 上报设备信息
 
@@ -110,8 +110,8 @@ adb shell pm install-existing com.mobiletools.systemhelper
 **方式二：从源码运行 / 自行打包**
 
 ```bash
-git clone https://github.com/chokoketsu/MiPreinstallUninstaller.git
-cd MiPreinstallUninstaller
+git clone https://github.com/chokoketsu/SystemHelper-Remover.git
+cd SystemHelper-Remover
 
 python src/mi_uninstaller.py       # 直接跑
 pip install pyinstaller && python build.py   # 或打成 exe
@@ -222,3 +222,5 @@ OTA 大版本升级会重新写入预装应用，重跑一次卸载即可。
 ---
 
 <sub>作者 <a href="https://github.com/chokoketsu">@chokoketsu</a> · 代码与文档在 AI 辅助下完成，所有操作步骤均经实机验证</sub>
+
+<sub>SystemHelper Remover · com.mobiletools.systemhelper · 系统助手 卸载 · 小米 预装应用 卸载 · MIUI 广告 清理 · bloatware remover</sub>

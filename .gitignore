@@ -1,5 +1,6 @@
 # 构建产物
 build/
+build_prev_*/
 dist/
 *.spec
 __pycache__/

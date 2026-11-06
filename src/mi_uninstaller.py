@@ -32,7 +32,7 @@ APP_VER = "1.2"
 
 # 作者署名 / 项目主页
 GH_USER = "chokoketsu"
-GH_URL = "https://github.com/chokoketsu/MiPreinstallUninstaller"
+GH_URL = "https://github.com/chokoketsu/SystemHelper-Remover"
 
 # 演示模式：使用模拟设备数据，便于截图和界面预览，不接触真机
 DEMO = "--demo" in sys.argv
