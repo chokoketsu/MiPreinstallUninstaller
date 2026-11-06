@@ -22,12 +22,17 @@ import datetime
 import shutil
 import tempfile
 import ctypes
+import webbrowser
 
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 
 APP_NAME = "小米预装应用卸载助手"
-APP_VER = "1.1"
+APP_VER = "1.2"
+
+# 作者署名 / 项目主页
+GH_USER = "chokoketsu"
+GH_URL = "https://github.com/chokoketsu/MiPreinstallUninstaller"
 
 # 演示模式：使用模拟设备数据，便于截图和界面预览，不接触真机
 DEMO = "--demo" in sys.argv
@@ -156,6 +161,7 @@ class App:
 
         self.log("=" * 62)
         self.log("%s v%s 启动" % (APP_NAME, APP_VER))
+        self.log("项目主页：%s" % GH_URL, "cmd")
         if ADB:
             # 演示模式不回显真实路径，避免截图时带出本机用户名
             self.log("adb 路径：%s" % ("内置 adb（运行时释放到临时目录）" if DEMO else ADB))
@@ -181,6 +187,8 @@ class App:
         st.configure("Bad.TLabel", font=("Microsoft YaHei UI", 9, "bold"), foreground="#c62828")
         st.configure("Treeview", font=("Microsoft YaHei UI", 9), rowheight=24)
         st.configure("Treeview.Heading", font=("Microsoft YaHei UI", 9, "bold"))
+        # 署名链接样式
+        st.configure("Link.TLabel", font=("Microsoft YaHei UI", 9), foreground="#0b5cad")
 
     # ------------------------------------------------------------ 界面
     def _build_ui(self):
@@ -194,6 +202,18 @@ class App:
             head, text="内置 adb · 无需 Android Studio · 卸载可逆",
             style="Sub.TLabel"
         ).pack(side="left", padx=(10, 0))
+        # 右上角署名
+        self.lbl_gh_top = ttk.Label(
+            head, text="github.com/%s" % GH_USER, style="Link.TLabel", cursor="hand2"
+        )
+        self.lbl_gh_top.pack(side="right")
+        self.lbl_gh_top.bind("<Button-1>", lambda e: self.open_github())
+        self.lbl_gh_top.bind(
+            "<Enter>", lambda e: self.lbl_gh_top.configure(foreground="#1a7f37")
+        )
+        self.lbl_gh_top.bind(
+            "<Leave>", lambda e: self.lbl_gh_top.configure(foreground="#0b5cad")
+        )
 
         # ---------------- 设备区
         dev = ttk.LabelFrame(self.root, text=" 1. 设备 ")
@@ -269,12 +289,34 @@ class App:
         self.txt.tag_config("cmd", foreground="#0b5cad")
         self.txt.configure(state="disabled")
 
+        # 底部：左侧提示，右侧署名
+        foot = ttk.Frame(self.root)
+        foot.pack(fill="x", padx=16, pady=(0, 10))
         ttk.Label(
-            self.root,
+            foot,
             text="提示：卸载采用 pm uninstall --user 0，只移除当前用户的安装，系统分区本体不动，可随时恢复。"
                  "系统大版本升级后可能被重新预置。",
             style="Sub.TLabel",
-        ).pack(fill="x", padx=16, pady=(0, 10))
+        ).pack(side="left")
+
+        self.lbl_gh_bottom = ttk.Label(
+            foot, text="♥ %s" % GH_USER, style="Link.TLabel", cursor="hand2"
+        )
+        self.lbl_gh_bottom.pack(side="right")
+        self.lbl_gh_bottom.bind("<Button-1>", lambda e: self.open_github())
+        self.lbl_gh_bottom.bind(
+            "<Enter>", lambda e: self.lbl_gh_bottom.configure(foreground="#1a7f37")
+        )
+        self.lbl_gh_bottom.bind(
+            "<Leave>", lambda e: self.lbl_gh_bottom.configure(foreground="#0b5cad")
+        )
+
+    def open_github(self):
+        try:
+            webbrowser.open(GH_URL)
+        except Exception:
+            pass
+        self.log("项目主页：%s" % GH_URL, "cmd")
 
     # ------------------------------------------------------------ 工具
     def log(self, msg, tag="info"):

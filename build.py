@@ -30,6 +30,7 @@ for _stream in (sys.stdout, sys.stderr):
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "src" / "mi_uninstaller.py"
 ICON = ROOT / "assets" / "icon.ico"
+VERINFO = ROOT / "version_info.txt"
 ADB_DIR = ROOT / "adb_bundle"
 DIST = ROOT / "dist"
 WORK = ROOT / "build"
@@ -111,8 +112,12 @@ def build():
         "--distpath", str(DIST),
         "--workpath", str(WORK),
         "--specpath", str(WORK),
-        str(SRC),
     ]
+    # 把作者信息写进 exe 属性（右键 → 详细信息）
+    if VERINFO.is_file():
+        cmd += ["--version-file", str(VERINFO)]
+    cmd.append(str(SRC))
+
     ret = subprocess.call(cmd)
     if ret != 0:
         print("[!] 打包失败")

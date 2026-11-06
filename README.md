@@ -12,7 +12,9 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![PyInstaller](https://img.shields.io/badge/PyInstaller-onefile-2E8B57?style=flat-square)](https://pyinstaller.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Release](https://img.shields.io/badge/Release-v1.1.0-blue?style=flat-square)](../../releases)
+[![Release](https://img.shields.io/badge/Release-v1.2.0-blue?style=flat-square)](../../releases)
+
+小米 / Redmi / POCO 已实测　·　其他 Android 机型理论可用，未经实机验证
 
 </div>
 
@@ -219,4 +221,4 @@ OTA 大版本升级会重新写入预装应用，重跑一次卸载即可。
 
 ---
 
-<sub>本项目的代码与文档在 AI 辅助下完成，所有操作步骤均在实机上验证过。</sub>
+<sub>作者 <a href="https://github.com/chokoketsu">@chokoketsu</a> · 代码与文档在 AI 辅助下完成，所有操作步骤均经实机验证</sub>
